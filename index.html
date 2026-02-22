@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>2025 關西家族之旅 - 旗艦導遊終極版</title>
+    <!-- 桌面圖示：紅色鳥居 -->
+    <link rel="apple-touch-icon" href="https://i.ibb.co/27KXyfSt/image.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700;900&family=Ma+Shan+Zheng&display=swap');
+        
+        :root {
+            --kyoto-red: #B22D15;
+            --bamboo-green: #3A4D39;
+            --osaka-gold: #D4AF37;
+            --washi-bg: #F9F6F0;
+            --stay-dark: #1A1A1A;
+            --premium-navy: #1E272E;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--washi-bg);
+            color: #2D3436;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+            text-align: left;
+        }
+
+        .calligraphy { font-family: 'Ma Shan Zheng', cursive !important; }
+        .kaity { font-family: 'DFKai-SB', '標楷體', 'Kaiti TC', 'KaiTi', serif !important; }
+
+        .tab-active {
+            background: var(--kyoto-red) !important;
+            color: white !important;
+            box-shadow: 0 8px 20px rgba(178, 45, 21, 0.35);
+            transform: scale(1.08);
+        }
+
+        .glass-tool {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-slideUp { animation: slideUp 0.3s cubic-bezier(0, 0, 0.2, 1) forwards; }
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .modal-immersive-header {
+            height: 320px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .modal-immersive-overlay {
+            background: linear-gradient(to bottom, rgba(249, 246, 240, 0.1) 0%, rgba(249, 246, 240, 0.9) 100%);
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+        .text-shadow-premium {
+            text-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 5px rgba(255, 255, 255, 0.8);
+        }
+
+        .badge-spot { background: #E6F3FF; color: #007AFF; }
+        .badge-food { background: #FFF4E6; color: #FF9500; }
+        .badge-stay { background: rgba(255, 215, 0, 0.2); color: #FFD700; border: 1px solid rgba(255, 215, 0, 0.3); }
+        .badge-check { background: rgba(255, 255, 255, 0.2); color: #FFFFFF; border: 1px solid rgba(255, 255, 255, 0.4); }
+        
+        .card-stay {
+            background-color: var(--stay-dark) !important;
+            color: #FFFFFF !important;
+            border-left: 6px solid var(--osaka-gold) !important;
+        }
+        
+        .card-check {
+            background: var(--premium-navy) !important;
+            color: #FFFFFF !important;
+            border-left: 6px solid #5758BB !important;
+            box-shadow: 0 10px 25px rgba(30, 39, 46, 0.25) !important;
+        }
+
+        .btn-press:active { transform: scale(0.92); opacity: 0.8; }
+        #stamina-ring { transition: stroke-dashoffset 1.2s ease-out; }
+    </style>
+</head>
+<body class="max-w-md mx-auto shadow-2xl min-h-screen pb-48 relative">
+
+    <!-- Header Section -->
+    <header id="main-header" class="bg-[#3A4D39] text-white p-8 rounded-b-[4rem] shadow-2xl relative overflow-hidden min-h-[220px] flex flex-col justify-end transition-all text-left">
+        <img id="header-bg" src="https://images.unsplash.com/photo-1590559899731-a382839e5549?auto=format&fit=crop&w=1200&q=80" class="absolute inset-0 w-full h-full object-cover opacity-45 transition-all duration-700">
+        <div class="absolute inset-0 bg-gradient-to-t from-[#3A4D39] via-transparent to-transparent opacity-80 text-left"></div>
+        <div class="relative z-10 flex justify-between items-end text-left">
+            <div class="flex-1 overflow-hidden pb-1 text-left">
+                <h1 class="text-4xl font-black kaity text-gray-900 leading-none text-shadow-premium mb-1">關西小醉醉</h1>
+                <p class="text-xs font-bold text-yellow-100/80 tracking-widest uppercase">Family Travel 2025</p>
+            </div>
+            <div class="text-right flex flex-col items-end">
+                <p id="weather-city-name" class="text-7xl calligraphy text-yellow-50 leading-none mb-1 drop-shadow-md">--</p>
+                <div class="flex items-center justify-end gap-2 pr-1">
+                    <span id="weather-icon-inline" class="text-base opacity-90"></span>
+                    <p id="weather-temp-calligraphy" class="text-4xl calligraphy text-yellow-100 leading-none">--°C</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Toolbar -->
+    <section class="px-4 -mt-10 relative z-20 flex justify-center gap-2 text-center text-left">
+        <button onclick="window.toggleTool('calc')" class="w-[23%] glass-tool p-4 rounded-[2rem] shadow-xl flex flex-col items-center btn-press"><i class="fas fa-calculator text-[--osaka-gold] mb-1.5 text-xl"></i><span class="text-[9px] font-black text-gray-800">匯率</span></button>
+        <button onclick="window.toggleTool('ledger')" class="w-[23%] glass-tool p-4 rounded-[2rem] shadow-xl flex flex-col items-center btn-press"><i class="fas fa-coins text-emerald-600 mb-1.5 text-xl"></i><span class="text-[9px] font-black text-gray-800">記帳</span></button>
+        <button onclick="window.toggleTool('trans')" class="w-[23%] glass-tool p-4 rounded-[2rem] shadow-xl flex flex-col items-center btn-press"><i class="fas fa-language text-blue-500 mb-1.5 text-xl"></i><span class="text-[9px] font-black text-gray-800">翻譯</span></button>
+        <button onclick="window.toggleTool('checklist')" class="w-[23%] glass-tool p-4 rounded-[2rem] shadow-xl flex flex-col items-center btn-press"><i class="fas fa-clipboard-list text-purple-500 mb-1.5 text-xl"></i><span class="text-[9px] font-black text-gray-800">清單</span></button>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="flex overflow-x-auto whitespace-nowrap px-4 py-8 no-scrollbar sticky top-0 z-40 bg-[--washi-bg]/95 backdrop-blur-md">
+        <div class="flex space-x-4 mx-auto px-4 text-left" id="day-nav-container"></div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main id="main-content" class="px-6 min-h-[400px] text-left"></main>
+
+    <!-- Modal Container -->
+    <div id="tool-modal" class="hidden fixed inset-0 z-[150] flex items-end justify-center bg-black/60 backdrop-blur-md" onclick="if(event.target === this) window.closeModal()">
+        <div class="bg-[--washi-bg] w-full max-w-md rounded-t-[3rem] shadow-2xl overflow-hidden animate-slideUp max-h-[92vh] flex flex-col relative">
+            <div class="w-12 h-1 bg-gray-300 rounded-full mx-auto mt-4 mb-2"></div>
+            <!-- 置頂且固定關閉按鈕 -->
+            <button onclick="window.closeModal()" class="absolute top-6 right-6 z-[999] w-12 h-12 rounded-full bg-black/20 text-white flex items-center justify-center active:scale-90 shadow-lg backdrop-blur-md border border-white/20">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <div id="modal-body" class="flex-1 overflow-y-auto no-scrollbar pb-10 text-left"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-sm bg-white/95 backdrop-blur-3xl rounded-[2.5rem] shadow-2xl border border-white p-5 z-50 flex justify-between items-center px-10 safe-pb">
+        <a href="tel:0901234567" class="flex flex-col items-center"><div class="w-12 h-12 rounded-full bg-red-50 text-[--kyoto-red] flex items-center justify-center mb-1 shadow-sm text-center text-left"><i class="fas fa-phone-alt text-xl text-left"></i></div><span class="text-[8px] font-black text-gray-500 uppercase tracking-tighter text-center">聯繫司機</span></a>
+        <div class="text-center relative -top-2">
+            <div class="relative w-16 h-16 mx-auto text-center text-left text-left">
+                <svg class="w-full h-full transform -rotate-90">
+                    <circle cx="32" cy="32" r="28" stroke="#f0f0f0" stroke-width="4" fill="transparent" />
+                    <circle id="stamina-ring" cx="32" cy="32" r="28" stroke="var(--kyoto-red)" stroke-width="4" fill="transparent" stroke-dasharray="176" stroke-dashoffset="176" />
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center font-black text-[--kyoto-red] text-sm text-center text-left"><span id="stamina-val">--%</span></div>
+            </div>
+            <span class="text-[8px] font-black text-gray-400 uppercase tracking-widest text-center">家族體力</span>
+        </div>
+        <button onclick="window.toggleTool('trans')" class="flex flex-col items-center text-center">
+            <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mb-1 shadow-sm font-black text-center text-left"><i class="fas fa-robot text-xl text-left"></i></div>
+            <span class="text-[8px] font-black text-gray-500 uppercase tracking-tighter text-center text-left">AI 助手</span>
+        </button>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, doc, onSnapshot, addDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const apiKey = ""; 
+
+        // 飯店詳細介紹模板
+        const mimaruIntro = `專為家庭客設計的公寓式飯店，強調「家」的溫馨感與極致生活機能。房內擁有獨立的「客廳中心」設計與大型木質餐桌，讓全家人在結束一整天行程後能圍聚聊天。配備全套廚具、大型冰箱與洗烘衣機，讓長輩像住在家裡一樣自在。地址：〒542-0081 大阪府中央區南船場2-4-18。`;
+        const mimaruGuide = `【生活圈推薦】飯店旁即是「Life」大型超市，可輕鬆買到古都華草莓與各色當季水果。步行 5 分鐘即可達心齋橋筋，深夜掃貨與美食極其便利。電話：6435282209`;
+        
+        const piecesIntro = `一間以「旅途中的 22 件拼圖」為名的美學飯店，將儀式感融入細節。房內寬闊比例遠超一般日本市區飯店，提供極致的伸展空間。全房型標配精品「Baluda」手沖壺、烤麵包機與洗烘衣機，營造出如同京都私人宅邸般的質感儀式感。地址：〒601-8003 京都府南區東九條室町 9-4。`;
+        const piecesGuide = `【京都儀式感】飯店距離京都車站步行僅 5 分鐘，晚上去車站伊勢丹百貨掃貨或欣賞京都塔夜景極其便利。電話：6236190418`;
+
+        // 1. 全局行程資料庫 (V5.0 終極細節版)
+        const tourData = {
+            1: { 
+                label: "Day 1 大阪・美食強攻", loc: "大阪", engLoc: "Osaka", img: "https://images.unsplash.com/photo-1590559899731-a382839e5549?auto=format&fit=crop&w=1200&q=80", stamina: 85, 
+                events: [
+                    { t: "09:20", s: "桃園機場 | 星宇 JX822", type: "交通", i: "plane-departure", n: "起飛前往關西。精品航空啟程。", m: "Taoyuan+Airport", imgDetail: "https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=800", detailTitle: "星宇航向關西", intro: `建議 06:50 抵達二航辦理登機。星宇 A321neo 機型設有豪華個人娛樂系統，長輩可預先預約「東方素食餐」。`, aiGuide: `首席導遊：機上胡同燒肉飯極受好評，精品內裝絕對讓家人驚豔。`, mustEat: "星宇精品機上餐。" },
+                    { t: "12:50", s: "抵達關西機場 | KIX", type: "交通", i: "plane-arrival", n: "司機接機，直達心齋橋飯店。", m: "KIX", imgDetail: "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?auto=format&fit=crop&w=800", detailTitle: "關西入境", intro: `完成通關。專屬司機將在接機大廳舉牌等候。行李直上包車，長輩輕鬆免提重物。直達飯店。` },
+                    { t: "15:30", s: "頂級和牛：Mouriya 神戶牛", type: "餐廳", i: "fire", n: "震撼開場：入口即化的和牛套餐。", m: "Mouriya+Osaka", imgDetail: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800", detailTitle: "極品神戶和牛午饗", intro: `環境靜謐。老師傅現場料理，油脂分布完美的 A5 神戶牛在口腔中融化，長輩咀嚼毫無負擔。`, aiGuide: `導遊觀點：建議 Medium 熟度配上海鹽與大蒜片最能帶出原味。`, reserved: true, vegNote: `提供野菜鐵板燒套組。` },
+                    { t: "17:30", s: "蟹道樂 總店", type: "餐廳", i: "utensils", n: "道頓堀地標，螃蟹全席精緻宴。", m: "Kani+Doraku", imgDetail: "https://i.ibb.co/XZcYVWYz/image.jpg", detailTitle: "螃蟹豪華料理", intro: `巨大的移動螃蟹招牌是必拍背景。料理清淡甜美，包含刺身、烤蟹與螃蟹釜飯，適合長輩口味。`, reserved: true },
+                    { t: "20:30", s: "入住：MIMARU大阪 心斎橋NORTH", type: "住宿", i: "hotel", n: "入住精緻公寓飯店。感受家之溫馨。", m: "MIMARU+Osaka+Shinsaibashi+North", imgDetail: "https://i.ibb.co/Wv8V9WDM/image.jpg", detailTitle: "大阪奢華寓所：MIMARU", intro: mimaruIntro, aiGuide: mimaruGuide, reserved: true },
+                    { t: "21:00", s: "🍓 宵夜掃貨與草莓季", type: "購物", i: "shopping-bag", n: "古都華草莓、551肉包掃貨。", m: "Life+Supermarket", imgDetail: "https://images.unsplash.com/photo-1464960710542-5674033ed5f6?auto=format&fit=crop&w=800", detailTitle: "大阪宵夜清單", intro: `前往飯店旁的 Life 超市，購買產地直送的日本草莓。古都華、淡雪等名種一應俱全。` }
+                ] 
+            },
+            2: { 
+                label: "Day 2 影城・尊榮狂歡", loc: "大阪", engLoc: "Osaka", img: "https://i.ibb.co/Fb2MnJ7h/image.jpg", stamina: 40, 
+                events: [
+                    { t: "08:00", s: "VIP 專屬報到與休息室", type: "體驗", i: "crown", n: "八點準時抵達，尊榮之旅啟程。", m: "USJ+VIP+Entrance", imgDetail: "https://images.unsplash.com/photo-1590233461421-47701389772d?auto=format&fit=crop&w=800", detailTitle: "VIP 專屬報到", intro: `建議請司機在「飯店接送區 (Bus/Taxi Drop-off)」下車，此處離 VIP 入口最近。入園後直入休息室。`, reserved: true },
+                    { t: "09:30", s: "VIP 3 小時導覽 (制霸任天堂)", type: "景點", i: "star", n: "攻略任天堂區與小小兵乘車遊。", m: "Super+Nintendo+World", imgDetail: "https://images.unsplash.com/photo-1624316812891-b3b3a6230919?auto=format&fit=crop&w=1200", detailTitle: "免排隊極速導覽", intro: `專人引導直入「超級任天堂世界™」。<br>設施：大金剛瘋狂礦車、瑪利歐賽車、耀西冒險。<br>變更：因大白鯊維修，改前往「小小兵瘋狂乘車遊」。導覽於 12:30 結束於小小兵樂園。`, aiGuide: `導遊建議：耀西冒險視野好適合全家合照。大白鯊維修由小小兵替代。`, accessible: true },
+                    { t: "12:30", s: "📍 A, B 小遊戲挑戰", type: "體驗", i: "gamepad", n: "小小兵樂園獎品全攻略。", m: "Minion+Park+Games", imgDetail: "https://images.unsplash.com/photo-1590233461421-47701389772d?auto=format&fit=crop&w=800", detailTitle: "小小兵攤位攻略", intro: `**📍 A 香蕉卡巴那**：入口左側。敲香蕉射桶，氣氛超 High。<br>**📍 B 太空殺手**：內側。經典球擊罐子，贏取大大玩偶。` },
+                    { t: "13:00", s: "SAIDO 彩道：日式定食午餐", type: "美食", i: "utensils", n: "長輩最愛日式風味。享10%折扣。", m: "SAIDO+USJ", imgDetail: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800", detailTitle: "彩道精緻定食", intro: `位於紐約區。日式定食最合長輩胃口，也是今天最好的休息點。全體可使用 1500円餐券並享 10% 結帳折扣。`, reserved: true },
+                    { t: "14:30", s: "25 週年慶典遊行：尊榮席", type: "體驗", i: "music", n: "VIP 專屬席。全體大合照時刻！", m: "USJ+Parade", imgDetail: "https://images.unsplash.com/photo-1590233461421-47701389772d?auto=format&fit=crop&w=800", detailTitle: "慶典遊行視野", intro: `在最佳視野區與皮卡丘、瑪利歐一起跳舞。這是全團 8 人最適合拍團體大合照的時刻！` },
+                    { t: "15:30", s: "📍 C, D 溫馨遊戲時光", type: "體驗", i: "gift", n: "拋硬幣與丟罐子。溫馨得獎區。", m: "Universal+Wonderland", imgDetail: "https://images.unsplash.com/photo-1590233461421-47701389772d?auto=format&fit=crop&w=800", detailTitle: "親子溫馨攤位", intro: `**📍 C 親善村遊戲**：大白鯊對面。場地寬廣適合圍觀。<br>**📍 D 環球奇境**：史努比區。玩法最簡單溫和，長輩贏獎品機率最高。` },
+                    { t: "16:30", s: "4 張快通 & 城堡點燈", type: "體驗", i: "ticket-alt", n: "柯南 4D、哈利波特、魔幻城堡。", m: "The+Wizarding+World+of+Harry+Potter", imgDetail: "https://images.unsplash.com/photo-1590233461421-47701389772d?auto=format&fit=crop&w=800", detailTitle: "自由快通攻略", intro: `攻略重點：<br>1. **柯南 4D**：劇場式坐著看，休息首選。<br>2. **哈利波特禁忌之旅**：魔幻必玩。<br>3. **鷹馬飛行**：溫和版過山車。<br>傍晚進入哈利波特區看城堡點燈。`, aiGuide: `導遊提醒：柯南秀是舒緩體力的黃金時間。` },
+                    { t: "20:30", s: "入住：MIMARU大阪 連泊續住", type: "住宿", i: "hotel", n: "大阪奢華寓所續住。", m: "MIMARU+Osaka+Shinsaibashi+North", imgDetail: "https://i.ibb.co/Wv8V9WDM/image.jpg", detailTitle: "溫馨家之寓所", intro: mimaruIntro, aiGuide: mimaruGuide, reserved: true }
+                ] 
+            },
+            3: { 
+                label: "Day 3 奈良・神鹿文化", loc: "奈良", engLoc: "Nara", img: "https://i.ibb.co/Rp5Zt2vJ/image.jpg", stamina: 70, 
+                events: [
+                    { t: "09:00", s: "大阪飯店包車出發", type: "交通", i: "car", n: "MIMARU 出發直達奈良。", m: "MIMARU+Osaka", imgDetail: "https://i.ibb.co/Wv8V9WDM/image.jpg", detailTitle: "出發奈良" },
+                    { t: "10:00", s: "奈良公園 & 東大寺", type: "景點", i: "hippo", n: "餵鹿與參拜震撼大佛。", m: "Todaiji", imgDetail: "https://i.ibb.co/ksgDLctq/image.jpg", detailTitle: "東大寺參拜", intro: `奈良公園平坦好走。東大寺設有無障礙坡道，長輩能輕鬆進入參拜盧舍那佛。`, aiGuide: `【重要指令】請司機停在「南大門」最近處放人，長輩步行距離最短。`, accessible: true },
+                    { t: "12:00", s: "奈良風味午餐", type: "美食", i: "utensils", n: "當地風味定食。", m: "Nara+Lunch", imgDetail: "https://i.ibb.co/hRXB7hKW/image.jpg", detailTitle: "奈良食時", aiGuide: `導遊提醒：請司機推薦好停車、步行距離短的餐廳。` },
+                    { t: "13:30", s: "中谷堂搗麻糬", type: "體驗", i: "store", n: "觀賞搗麻糬表演。", m: "Nakatanidou", imgDetail: "https://i.ibb.co/vx1ptgT0/image.jpg", detailTitle: "中谷堂", intro: `位於近鐵奈良站附近，停留拍照並品嚐最新鮮的現搗麻糬。` },
+                    { t: "14:30", s: "宇治 平等院 & 抹茶下午茶", type: "景點", i: "leaf", n: "路面平整，世界遺產散策。", m: "Byodoin", imgDetail: "https://i.ibb.co/vx1ptgT0/image.jpg", detailTitle: "宇治抹茶香", intro: `平等院路面平整，適合長輩慢走欣賞鳳凰堂。結束後安排正統抹茶下午茶。`, aiGuide: `資深導遊：此處是京都周邊最優雅、體力負擔最低的世遺點。` },
+                    { t: "17:00", s: "入住：22 pieces (京都)", type: "住宿", i: "hotel", n: "京都車站旁設計名邸。質感第一晚。", m: "22+pieces+Kyoto", imgDetail: "https://i.ibb.co/svMxj7z5/image.jpg", detailTitle: "京都奢華泊：22 pieces", intro: piecesIntro, aiGuide: piecesGuide, reserved: true }
+                ] 
+            },
+            4: { 
+                label: "Day 4 京都・深度散策", loc: "京都", engLoc: "Kyoto", img: "https://i.ibb.co/PzY0SDLD/image.jpg", stamina: 65, 
+                events: [
+                    { t: "09:30", s: "金閣寺參拜", type: "景點", i: "sun", n: "平路步行。閃耀舍利殿。", m: "Kinkakuji", imgDetail: "https://i.ibb.co/nN541XSx/image.jpg", detailTitle: "金閣耀眼", intro: `路徑平坦。午後陽光直射金箔最為閃亮。` },
+                    { t: "11:00", s: "伏見稻荷大社", type: "景點", i: "torii-gate", n: "千本鳥居入口拍照。", m: "Fushimi", imgDetail: "https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?auto=format&fit=crop&w=800", detailTitle: "鳥居之門", aiGuide: `【重要】門口拍照即撤不爬山。隨後前往周邊商店街步行逛街。` },
+                    { t: "14:30", s: "清水寺 & 二年坂", type: "景點", i: "temple", n: "清水舞台。早鳥免排隊攻略。", m: "Kiyomizu", imgDetail: "https://i.ibb.co/8nLR731B/image.jpg", detailTitle: "清水之舞台", intro: `參拜清水舞台與音羽之瀧。回程順著二年坂、三年坂緩下坡走下去散步。`, aiGuide: `【關鍵指令】請司機務必開到「最上方的停車場」(近入口)放人。長輩走3分鐘即達舞台，避開下方超長斜坡。` },
+                    { t: "16:30", s: "祇園 / 花見小路 / 鴨川", type: "景點", i: "walking", n: "古都老街風情漫步。", m: "Gion", imgDetail: "https://i.ibb.co/BKT0rMnc/image.jpg", detailTitle: "古都風情" },
+                    { t: "20:00", s: "入住：22 pieces (京都)", type: "住宿", i: "hotel", n: "京都質感居。連泊第二晚。", m: "22+pieces+Kyoto", imgDetail: "https://i.ibb.co/svMxj7z5/image.jpg", detailTitle: "京都質感居" }
+                ] 
+            },
+            5: { 
+                label: "Day 5 嵐山・漫活行程", loc: "京都", engLoc: "Kyoto", img: "https://i.ibb.co/JFxL6W1q/image.jpg", stamina: 75, 
+                events: [
+                    { t: "08:40", s: "計程車直送小火車站", type: "交通", i: "taxi", n: "飯店 ➔ 嵯峨小火車站。", m: "Torokko+Saga", imgDetail: "https://i.ibb.co/svMxj7z5/image.jpg", detailTitle: "出發嵐山", aiGuide: `【計程車戰略】預約兩台計程車。25分鐘直達，避開 JR 車站長距離步行，這對長輩最省體力。` },
+                    { t: "09:30", s: "嵐山小火車 (嵯峨-龜岡)", type: "體驗", i: "train", n: "沿途欣賞保津峽美景。", m: "Kameoka", imgDetail: "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=800", detailTitle: "觀光小火車", aiGuide: `【魔鬼細節】強烈建議不要在「保津峽站」下車，該站有無數階梯且無電梯。請坐到終點龜岡。` },
+                    { t: "10:00", s: "龜岡田野平路散步", type: "交通", i: "walking", n: "龜岡站 ➔ JR 馬堀站。", m: "JR+Umahori", imgDetail: "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=800", detailTitle: "田野慢行", intro: `步行約 10-15 分鐘。路徑穿過田野且路面平緩。`, aiGuide: `導遊叮嚀：如果體力稍差，請慢慢走這 600 公尺即可。` },
+                    { t: "10:30", s: "竹林小徑 (北端進入)", type: "景點", i: "leaf", n: "陰涼平坦的散步路線。", m: "Bamboo+Forest", imgDetail: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800", detailTitle: "竹林深處", intro: `從北端進入最為平坦好拍。` },
+                    { t: "11:15", s: "天龍寺 (北進正出)", type: "景點", i: "torii-gate", n: "曹源池庭園下坡路線。", m: "Tenryu-ji", imgDetail: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800", detailTitle: "世界遺產天龍寺", aiGuide: `【神準動線】從竹林端北門進，從正門出。這是一段「下坡路徑」，體力負擔最小。` },
+                    { t: "12:15", s: "嵐山大街 & 渡月橋", type: "美食", i: "utensils", n: "豆腐料理午餐與橋邊漫步。", m: "Arashiyama+Main+Street", imgDetail: "https://images.unsplash.com/photo-1512832935301-df7ad7d4986c?auto=format&fit=crop&w=800", detailTitle: "嵐山樂食", intro: `推薦：豆腐定食。飽餐後步行 5 分鐘抵達渡月橋拍照。` },
+                    { t: "14:30", s: "嵐山人力車體驗", type: "體驗", i: "walking", n: "繞行幽靜小路，尊榮省力。", m: "Rickshaw+Arashiyama", imgDetail: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800", detailTitle: "人力車時光", intro: `繞行嵐山幽靜小路。這是長輩休息與看景的最佳結合。`, reserved: true },
+                    { t: "18:00", s: "入住：22 pieces (京都)", type: "住宿", i: "hotel", n: "最後一個京都夜晚。", m: "22+pieces+Kyoto", imgDetail: "https://i.ibb.co/svMxj7z5/image.jpg", detailTitle: "京都最後之夜" }
+                ] 
+            },
+            6: { label: "Day 6 賦歸", loc: "京都", engLoc: "Kyoto", img: "https://i.ibb.co/ccRs1FZB/image.jpg", stamina: 95, events: [{ t: "14:00", s: "關西機場 | JX823", type: "交通", i: "plane-departure", n: "返抵桃園。平安回家。", m: "KIX", imgDetail: "https://images.unsplash.com/photo-1436491865332-7a61a109c0f3?auto=format&fit=crop&w=800", detailTitle: "返程航班", intro: `上午在京都車站進行最後採購。` }] }
+        };
+
+        const checkListData = ["護照正本 (全員)", "VIP 憑證截圖", "日本網卡", "日圓現金", "行動電源", "輕便雨具", "外套"];
+
+        let user = null, expenses = [], exchangeRate = 0.211;
+
+        window.closeModal = () => document.getElementById('tool-modal').classList.add('hidden');
+
+        window.toggleTool = (type, day, idx) => {
+            const modal = document.getElementById('tool-modal'), body = document.getElementById('modal-body');
+            if (!modal || !body) return;
+            modal.classList.remove('hidden');
+            body.innerHTML = '<div class="p-20 text-center"><i class="fas fa-circle-notch fa-spin text-4xl mb-4"></i><p>載入詳情中...</p></div>';
+            
+            setTimeout(() => {
+                if (type === 'calc') {
+                    body.innerHTML = `<div class="p-10 text-left fade-in"><h3 class="text-3xl font-black kaity mb-6 text-left">匯率換算</h3><div class="mb-6 bg-yellow-50 p-6 rounded-3xl border border-yellow-100 text-left text-left"><p class="text-[10px] text-yellow-600 font-bold">目前匯率</p><p class="text-xl font-bold font-mono">${window.liveRateText || '1 JPY = 0.211 TWD'}</p></div><div class="mb-8 text-left"><label class="text-[11px] font-black text-gray-400 block mb-2 font-mono">日圓 (JPY)</label><input type="number" id="jpy-input" class="w-full text-5xl font-black border-b-4 border-[--osaka-gold] py-4 outline-none bg-transparent" oninput="window.runConversion()" placeholder="¥"></div><div><label class="text-[11px] font-black text-gray-400 block mb-2 font-mono text-left">台幣 (TWD)</label><p id="twd-output" class="text-6xl font-black text-[--kyoto-red] mt-2">0</p></div></div>`;
+                } else if (type === 'ledger') {
+                    body.innerHTML = `<div class="p-8 text-left fade-in"><h3 class="text-3xl font-black kaity mb-6">家族記帳</h3><div class="bg-emerald-600 p-8 rounded-[2.5rem] shadow-xl text-white mb-8 text-center text-left text-left"><p class="text-emerald-100 text-xs mb-1 font-mono">分攤總計 (8位)</p><p id="ledger-total-jpy" class="text-4xl font-black font-mono">¥ 0</p></div><div class="flex gap-3 mb-8 text-left"><input type="text" id="ledger-item-name" placeholder="品項" class="flex-1 bg-white rounded-2xl p-4 outline-none border border-gray-100"><input type="number" id="ledger-item-amount" placeholder="¥" class="w-24 bg-white rounded-2xl p-4 outline-none border border-gray-100 font-mono"><button onclick="window.addExpense()" class="bg-emerald-600 text-white w-14 rounded-2xl flex items-center justify-center btn-press"><i class="fas fa-plus"></i></button></div><div id="ledger-list" class="space-y-4 mb-8"></div><div class="mt-10 pt-8 border-t border-gray-100 text-left text-left"><a href="https://liff.line.me/1655320992-Y8GowEpw/g/2jGf3BAwhK1jsbnwmPN7BQ" target="_blank" class="block w-full py-5 bg-[#06C755] text-white rounded-[2rem] text-center text-sm font-black shadow-lg btn-press flex items-center justify-center gap-3"><i class="fab fa-line text-2xl"></i>開啟分帳群組</a></div></div>`;
+                    renderLedger();
+                } else if (type === 'checklist') {
+                    body.innerHTML = `<div class="p-10 text-left fade-in"><h3 class="text-3xl font-black kaity mb-6 text-left">行前清單</h3><div class="space-y-4 text-left">${checkListData.map(text => `<label class="checklist-item flex items-center gap-4 bg-white p-5 rounded-2xl border border-gray-100 shadow-sm text-left"><input type="checkbox" class="w-6 h-6 rounded-lg border-gray-300 text-[--kyoto-red] focus:ring-[--kyoto-red]"><span class="text-sm font-bold text-gray-700 text-left">${text}</span></label>`).join('')}</div></div>`;
+                } else if (type === 'detail') {
+                    const d = tourData[day].events[idx];
+                    body.innerHTML = `
+                        <div class="fade-in">
+                            <div class="modal-immersive-header" style="background-image: url('${d.imgDetail}')">
+                                <div class="modal-immersive-overlay text-left"></div>
+                                <div class="absolute bottom-8 left-10 right-10 z-10 text-left">
+                                    <span class="badge-spot text-[10px] px-5 py-2 rounded-full font-black mb-3 inline-block shadow-sm">${d.type}</span>
+                                    <h2 class="text-4xl font-black text-gray-900 kaity text-shadow-premium leading-tight text-left text-left">${d.detailTitle}</h2>
+                                </div>
+                            </div>
+                            <div class="px-10 pb-16 pt-8 space-y-10 text-left">
+                                <section><h4 class="text-2xl font-black kaity border-l-4 border-[--kyoto-red] pl-4 mb-3 text-left">詳細規劃</h4><p class="text-[15px] leading-relaxed text-gray-600 font-medium">${d.intro || '詳細路線規劃中，將提供最順暢的步行體驗。'}</p></section>
+                                <section class="bg-white p-7 rounded-[2.5rem] border border-gray-100 shadow-sm text-left"><h4 class="text-xl font-black kaity text-[--kyoto-red] mb-3 text-left"><i class="fas fa-user-tie mr-2"></i>資深導遊觀點</h4><p class="text-[14px] font-bold italic text-gray-700 text-left">${d.aiGuide || '首席導遊：這是一個極佳的安排。'}</p></section>
+                                ${d.vegNote ? `<section class="bg-emerald-50 p-7 rounded-[2.5rem] border border-emerald-100 text-left"><h4 class="text-xl font-black kaity text-emerald-700 mb-2 text-left"><i class="fas fa-leaf mr-2 text-left"></i>蔬食導航 (素食友善)</h4><p class="text-[14px] font-bold text-emerald-800 text-left">${d.vegNote}</p></section>` : ''}
+                                ${d.website ? `<a href="${d.website}" target="_blank" class="block w-full py-5 bg-blue-600 text-white rounded-[2rem] text-center text-lg font-black kaity shadow-xl btn-press text-left"><i class="fas fa-external-link-alt mr-2 text-left"></i>開啟官網查看</a>` : ''}
+                                <a href="https://www.google.com/maps/search/?api=1&query=${d.m}" target="_blank" class="block w-full py-5 bg-gray-900 text-white rounded-[2rem] text-center text-lg font-black kaity shadow-xl btn-press text-left text-left">開啟 Google 地圖</a>
+                            </div>
+                        </div>`;
+                }
+            }, 50);
+        };
+
+        window.runConversion = () => {
+            const jpy = document.getElementById('jpy-input')?.value, output = document.getElementById('twd-output');
+            if (output && jpy) output.innerText = (parseFloat(jpy) * exchangeRate).toLocaleString('zh-TW', {maximumFractionDigits: 1});
+        };
+
+        async function updateWeatherUI(city, eng) {
+            const coords = eng === "Osaka" ? "latitude=34.69&longitude=135.50" : "latitude=35.01&longitude=135.77";
+            try {
+                const res = await fetch(`https://api.open-meteo.com/v1/forecast?${coords}&current_weather=true`);
+                if (!res.ok) return;
+                const d = await res.json(), temp = Math.round(d.current_weather.temperature), code = d.current_weather.weathercode;
+                let icon = code >= 51 ? "fa-cloud-showers-heavy" : (code >= 1 ? "fa-cloud-sun" : "fa-sun");
+                document.getElementById('weather-city-name').innerText = city;
+                document.getElementById('weather-icon-inline').innerHTML = `<i class="fas ${icon}"></i>`;
+                document.getElementById('weather-temp-calligraphy').innerText = `${temp}°C`;
+            } catch (e) {}
+        }
+
+        window.switchDay = (d) => {
+            const data = tourData[d]; if (!data) return;
+            document.querySelectorAll('#day-nav-container button').forEach(b => b.classList.remove('tab-active'));
+            document.getElementById(`tab${d}`).classList.add('tab-active');
+            document.getElementById('header-bg').src = data.img;
+            const ring = document.getElementById('stamina-ring'), dash = 176 - (176 * (data.stamina || 100) / 100);
+            ring.style.strokeDashoffset = dash; document.getElementById('stamina-val').innerText = (data.stamina || 100) + '%';
+
+            let html = `<div class="fade-in space-y-6">`;
+            data.events.forEach((e, idx) => {
+                let isStay = e.type === '住宿', isCheck = e.type === '檢查';
+                let badgeClass = isStay ? 'badge-stay' : (isCheck ? 'badge-check' : (e.type === '美食' || e.type === '餐廳' || e.type === '購物' || e.type === '體驗' ? 'badge-food' : 'badge-spot'));
+                let cardClass = isStay ? 'card-stay shadow-lg' : (isCheck ? 'card-check shadow-lg' : 'bg-white shadow-sm border border-gray-100');
+                let subTitleText = isStay ? '查看飯店特色與周邊景點' : '查看細節與美食攻略';
+                html += `<div class="relative pl-8 mb-8 border-l-2 border-dashed border-gray-200 text-left" onclick="window.toggleTool('detail', ${d}, ${idx})"><div class="absolute -left-2 top-0 w-4 h-4 rounded-full ${isStay ? 'bg-[--osaka-gold]' : (isCheck ? 'bg-[#BEB7FF]' : 'bg-[--kyoto-red]')} border-4 border-white shadow-md text-left"></div><div class="${cardClass} rounded-[2.5rem] p-7 active:scale-[0.97] transition-all text-left text-left text-left text-left text-left text-left text-left text-left"><div class="flex justify-between items-center mb-4 text-left text-left text-left text-left text-left text-left text-left text-left"><span class="${isStay ? 'bg-amber-600' : (isCheck ? 'bg-indigo-900/30' : 'bg-[--bamboo-green]')} text-white text-[9px] px-3 py-1 rounded-full font-bold shadow-sm text-left">${e.t}</span><div class="flex gap-2 text-left text-left text-left text-left text-left text-left text-left text-left">${e.reserved ? `<span class="bg-amber-100 text-amber-600 text-[8px] font-black px-2 py-1 rounded-lg border border-amber-200 text-left text-left">預約</span>` : ''}<span class="${badgeClass} text-[8px] font-black px-2.5 py-1 rounded-lg text-left text-left text-left text-left text-left text-left text-left">${e.type}</span></div></div><h3 class="text-xl font-bold mb-2 kaity flex items-center text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left"><i class="fas fa-${e.i || 'map-marker-alt'} mr-3 ${isStay ? 'text-[--osaka-gold]' : (isCheck ? 'text-white' : 'text-[--kyoto-red]')} text-lg opacity-80 text-left text-left text-left text-left text-left"></i>${e.s}</h3><p class="text-xs font-bold mb-4 line-clamp-1 opacity-80 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">${e.n}</p><div class="${isStay || isCheck ? 'bg-white/10' : 'bg-red-50'} px-4 py-2.5 rounded-2xl text-[10px] font-black border border-white/20 flex items-center justify-between text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left"><span><i class="fas fa-eye mr-2 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left"></i>${subTitleText}</span><i class="fas fa-chevron-right text-[8px] opacity-40 text-left text-left text-left text-left text-left text-left text-left text-left text-left"></i></div></div></div>`;
+            });
+            document.getElementById('main-content').innerHTML = html + `</div>`;
+            updateWeatherUI(data.loc, data.engLoc); window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.addExpense = async () => {
+            const n = document.getElementById('ledger-item-name')?.value, a = parseFloat(document.getElementById('ledger-item-amount')?.value);
+            if (!user || !n || isNaN(a)) return;
+            try {
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'kansai-pro-2025';
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'expenses'), { name: n, amount: a, timestamp: Date.now() });
+                document.getElementById('ledger-item-name').value = ''; document.getElementById('ledger-item-amount').value = '';
+            } catch (e) {}
+        };
+
+        window.deleteExpense = async (id) => {
+            const appId = typeof __app_id !== 'undefined' ? __app_id : 'kansai-pro-2025';
+            try { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'expenses', id)); } catch (e) {}
+        };
+
+        function renderLedger() {
+            const list = document.getElementById('ledger-list'); if (!list) return;
+            const t = expenses.reduce((s, i) => s + i.amount, 0);
+            document.getElementById('ledger-total-jpy').innerText = `¥ ${t.toLocaleString()}`;
+            list.innerHTML = expenses.map(i => `<div class="flex justify-between items-center bg-white p-5 rounded-3xl shadow-sm border border-gray-100 font-bold fade-in"><div class="flex-1 font-black text-gray-800 font-mono text-left">${i.name}</div><div class="text-right flex items-center gap-4 text-left"><p class="text-lg text-[--kyoto-red] font-mono font-black text-left">¥ ${i.amount.toLocaleString()}</p><button onclick="window.deleteExpense('${i.id}')" class="text-gray-300 transition px-2 text-left"><i class="fas fa-trash-alt text-xs text-left"></i></button></div></div>`).join('');
+        }
+
+        window.onload = async () => {
+            const nav = document.getElementById('day-nav-container'), dayNames = ["第一日", "第二日", "第三日", "第四日", "第五日", "第六日"];
+            nav.innerHTML = dayNames.map((n, i) => `<button onclick="window.switchDay(${i+1})" id="tab${i+1}" class="px-8 py-3 rounded-[1.5rem] bg-white text-gray-400 shadow-sm border border-gray-100 font-black transition-all text-xs text-center text-left text-left text-left text-left text-left text-left text-left">${n}</button>`).join('');
+            try { window.switchDay(1); } catch (e) {}
+            try {
+                const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "preview" };
+                const app = initializeApp(firebaseConfig), auth = getAuth(app), db = getFirestore(app);
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'kansai-pro-2025';
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) { await signInWithCustomToken(auth, __initial_auth_token); } else { await signInAnonymously(auth); }
+                onAuthStateChanged(auth, (u) => {
+                    user = u; if (user) {
+                        onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'expenses'), (snapshot) => {
+                            expenses = snapshot.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => b.timestamp - a.timestamp);
+                            if (document.getElementById('ledger-list')) renderLedger();
+                        });
+                    }
+                });
+                const rateRes = await fetch('https://open.er-api.com/v6/latest/JPY');
+                if (rateRes.ok) { const rateData = await rateRes.json(); exchangeRate = rateData.rates.TWD; window.liveRateText = `1 JPY = ${exchangeRate.toFixed(3)} TWD`; }
+            } catch (e) {}
+        };
+    </script>
+</body>
+</html>
